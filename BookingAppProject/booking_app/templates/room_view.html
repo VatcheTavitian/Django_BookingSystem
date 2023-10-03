@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}View Room Info{% endblock %}
+{% block content %}
+{% if roominfo %}
+<h1>{{ roominfo.first.room_id.name }} Room Bookings</h1>
+<p>Capacity = {{ roominfo.first.room_id.capacity }}</p>
+
+{% if roominfo.first.room_id.projector_availability %}
+<p>Projector is available</p>
+{% else %}
+<p>Projector unavailable</p>
+{% endif %}
+
+{% else %}
+<h1>{{ roomonly.name }} Room Bookings</h1>
+{% endif %}
+<table class="table">
+	<thead>
+		<tr class="d-flex">
+			<th scope="col" class="col-1">Date Booked</th>
+			<th scope="col" class="col-2">Comment</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% if roominfo %}
+		{% for roomi in roominfo %}
+		<tr class="d-flex">
+			<td class="col-1">
+				{{ roomi.date }}
+			</td>
+			<td class="col-2">
+				{{ roomi.comment }}
+			</td>
+		</tr>
+		{% endfor %}
+		{% else %}
+		<tr>
+			<td colspan="6">No bookings</td>
+		</tr>
+		{% endif %}
+	</tbody>
+</table>
+<p>
+	{% if roominfo %}
+	<a class="col-1" href="/room/modify/{{roominfo.first.room_id_id}}/">edit</a>
+	<a class="col-2" href="/room/delete/{{roominfo.first.room_id_id}}/">delete</a>
+	<a class="col-3" href="/room/reserve/{{roominfo.first.room_id_id}}/">book</a>
+	{% else %}
+	<a class="col-1" href="/room/modify/{{roomonly.id}}/">edit</a>
+	<a class="col-2" href="/room/delete/{{roomonly.id}}/">delete</a>
+	<a class="col-3" href="/room/reserve/{{roomonly.id}}/">book</a>
+	{% endif %}
+
+</p>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Reserve Room{% endblock %}
+{% block content %}
+
+<div class="card">
+	<div class="card-body">
+		<form action="" method="POST">
+			{% csrf_token %}
+			<div class="form-group">
+				<label for="room-name">Room name</label>
+				<small id="room-name-reserve" class="form-text">{{room.name}}</small>
+			</div>
+			<div class="form-group">
+				<label for="capacity">Booking Date</label>
+				<br>
+				<input type="date" id="date" name="date">
+			</div>
+			<div class="form-group">
+				<label for="Comment">Comment</label>
+				<br>
+				<input type="text" name="comment" id="comment">
+			</div>
+			<button type="submit" class="btn btn-primary">Book room</button>
+			{% if error %}
+			<span style="color:red;"> {{ error }}</span>
+			{% endif %}
+			{% if booked %}
+			<p style="color:green;">{{ booked }}</p>
+			{% endif %}
+		</form>
+	</div>
+</div>
+
+<div class="card">
+	<div class="card-body">
+		<h4>Current Bookings</h4>
+		<table class="table">
+			<thead>
+				<tr class="d-flex">
+					<th scope="col" class="col-1">Date Booked</th>
+					<th scope="col" class="col-2">Comment</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% if room.reservations %}
+				{% for roomi in room.reservations %}
+				<tr class="d-flex">
+					<td class="col-1">
+						{{ roomi.date }}
+					</td>
+					<td class="col-2">
+						{{ roomi.comment }}
+					</td>
+				</tr>
+				{% endfor %}
+				{% else %}
+				<tr>
+					<td colspan="6">No bookings</td>
+				</tr>
+				{% endif %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% endblock %}
